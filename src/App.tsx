@@ -1,6 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AirportCongestionChart, CongestionOverviewChart } from './components/CongestionChart'
+import {
+  DepartureTimePicker,
+} from './components/DepartureTimePicker'
+import { getDefaultDepartureDate, getDefaultDepartureTime } from './lib/congestionTime'
 import { buildChartPoints, buildOverviewPoints, parseLevel } from './lib/congestionChart'
+import {
+  buildFilterMessage,
+  filterItemsByDepartureTime,
+} from './lib/congestionTime'
+import type { CongestionItem } from './types/congestion'
 import './App.css'
 
 interface ApiHeader {
@@ -19,11 +28,6 @@ interface ApiResponse {
     header: ApiHeader
     body: ApiBody
   }
-}
-
-interface CongestionItem {
-  [key: string]: string
-  _source: string
 }
 
 const API_ENDPOINTS = [
@@ -433,16 +437,21 @@ function CongestionCard({ item, index }: { item: CongestionItem; index: number }
   )
 }
 
-function CongestionDashboard({ items }: { items: CongestionItem[] }) {
+function CongestionDashboard({
+  items,
+  filterMessage,
+}: {
+  items: CongestionItem[]
+  filterMessage?: string
+}) {
   const endpointGroups = groupByEndpoint(items)
 
   if (items.length === 0) {
     return (
       <div className="empty-state">
-        <p>표시할 혼잡도 데이터가 없습니다.</p>
+        <p>선택한 시간대에 표시할 혼잡도 데이터가 없습니다.</p>
         <p className="empty-state__hint">
-          「한국공항공사_공항 혼잡도 정보_GW」 API 활용신청(v1, v2)이 승인됐는지,
-          `.env`의 API 키와 Base URL을 확인해 주세요.
+          다른 출발 시간을 선택해 보세요. API는 시간(PRC_HR) 단위로 혼잡도를 제공합니다.
         </p>
       </div>
     )
@@ -450,6 +459,11 @@ function CongestionDashboard({ items }: { items: CongestionItem[] }) {
 
   return (
     <div className="congestion-dashboard">
+      {filterMessage && (
+        <p className="filter-message" role="status">
+          {filterMessage}
+        </p>
+      )}
       <div className="congestion-legend">
         <span className="congestion-legend__item congestion-legend__item--low">원활</span>
         <span className="congestion-legend__item congestion-legend__item--medium">보통</span>
@@ -478,15 +492,39 @@ function CongestionDashboard({ items }: { items: CongestionItem[] }) {
 }
 
 function App() {
-  const [items, setItems] = useState<CongestionItem[]>([])
+  const [allItems, setAllItems] = useState<CongestionItem[]>([])
+  const [displayItems, setDisplayItems] = useState<CongestionItem[]>([])
+  const [departureDate, setDepartureDate] = useState(getDefaultDepartureDate)
+  const [departureTime, setDepartureTime] = useState(getDefaultDepartureTime)
+  const [filterMessage, setFilterMessage] = useState<string | null>(null)
+  const [hasSearched, setHasSearched] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const runFilter = useCallback((date: string, time: string) => {
+    const result = filterItemsByDepartureTime(allItems, date, time)
+    setDisplayItems(result.items)
+    setFilterMessage(buildFilterMessage(result))
+    setHasSearched(true)
+  }, [allItems])
+
+  const applyDepartureFilter = useCallback(() => {
+    runFilter(departureDate, departureTime)
+  }, [departureDate, departureTime, runFilter])
+
+  const resetToNow = useCallback(() => {
+    const nowDate = getDefaultDepartureDate()
+    const nowTime = getDefaultDepartureTime()
+    setDepartureDate(nowDate)
+    setDepartureTime(nowTime)
+    runFilter(nowDate, nowTime)
+  }, [runFilter])
 
   useEffect(() => {
     void (async () => {
       try {
         const result = await fetchKacCongestion()
-        setItems(result)
+        setAllItems(result)
         console.log(`전체 추출 건수: ${result.length}`)
       } catch (err) {
         setError(err instanceof Error ? err.message : '알 수 없는 오류')
@@ -509,7 +547,30 @@ function App() {
           {error}
         </p>
       )}
-      {!loading && !error && <CongestionDashboard items={items} />}
+
+      {!loading && !error && (
+        <>
+          <DepartureTimePicker
+            date={departureDate}
+            time={departureTime}
+            onDateChange={setDepartureDate}
+            onTimeChange={setDepartureTime}
+            onSubmit={applyDepartureFilter}
+            onResetToNow={resetToNow}
+            loading={allItems.length === 0}
+          />
+
+          {!hasSearched && (
+            <p className="status-message">
+              출발 날짜와 시간을 선택한 뒤 「이 시간대 혼잡도 보기」를 눌러 주세요.
+            </p>
+          )}
+
+          {hasSearched && (
+            <CongestionDashboard items={displayItems} filterMessage={filterMessage ?? undefined} />
+          )}
+        </>
+      )}
     </main>
   )
 }

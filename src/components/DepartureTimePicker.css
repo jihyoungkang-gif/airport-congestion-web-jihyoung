@@ -1,0 +1,98 @@
+.departure-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--accent-bg);
+}
+
+.departure-picker__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  flex: 1 1 280px;
+}
+
+.departure-picker__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.departure-picker__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.departure-picker__field input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text-h);
+  background: var(--bg);
+}
+
+.departure-picker__field input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.departure-picker__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.departure-picker__button {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.departure-picker__button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.departure-picker__button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.departure-picker__button--secondary {
+  color: var(--text-h);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.departure-picker__button--secondary:hover:not(:disabled) {
+  background: var(--code-bg);
+}
+
+@media (max-width: 640px) {
+  .departure-picker {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .departure-picker__actions {
+    flex-direction: column;
+  }
+
+  .departure-picker__button {
+    width: 100%;
+  }
+}
