@@ -1,0 +1,425 @@
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  & > div {
+    flex: 1 1 0;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}
+
+.app {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h1 {
+    margin: 0 0 8px;
+  }
+
+  p {
+    color: var(--text);
+  }
+}
+
+.status-message,
+.empty-state {
+  text-align: center;
+  color: var(--text);
+}
+
+.empty-state__hint {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.congestion-card__empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.error {
+  text-align: center;
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.congestion-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.congestion-legend__item {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--code-bg);
+}
+
+.congestion-legend__item--low {
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #15803d;
+}
+
+.congestion-legend__item--medium {
+  border-color: rgba(234, 179, 8, 0.5);
+  color: #a16207;
+}
+
+.congestion-legend__item--high {
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #b91c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  .congestion-legend__item--low {
+    color: #86efac;
+  }
+
+  .congestion-legend__item--medium {
+    color: #fde047;
+  }
+
+  .congestion-legend__item--high {
+    color: #fca5a5;
+  }
+}
+
+.congestion-day {
+  margin-bottom: 40px;
+}
+
+.congestion-day__title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.congestion-day__count {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.congestion-day__endpoint {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+.congestion-day__desc {
+  margin: -8px 0 16px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.congestion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.congestion-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.congestion-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--accent-bg);
+  border-bottom: 1px solid var(--border);
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-h);
+  }
+}
+
+.congestion-card__sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.congestion-stat__level {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.congestion-card__date {
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.congestion-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.congestion-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.congestion-badge--low {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.congestion-badge--medium {
+  color: #854d0e;
+  background: #fef9c3;
+}
+
+.congestion-badge--high {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.congestion-card__section {
+  padding: 14px 16px;
+
+  & + & {
+    border-top: 1px solid var(--border);
+  }
+
+  h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+}
+
+.congestion-card__empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 24px 16px 32px;
+  }
+
+  .congestion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .congestion-day__title {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

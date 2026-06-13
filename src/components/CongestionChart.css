@@ -1,0 +1,49 @@
+.congestion-chart {
+  width: 100%;
+}
+
+.congestion-chart--overview {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--code-bg);
+}
+
+.congestion-chart--airport {
+  margin-top: 4px;
+}
+
+.congestion-chart-tooltip {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.congestion-chart-tooltip__title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--text-h);
+}
+
+.congestion-chart-tooltip__value {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.congestion-chart-tooltip__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.congestion-chart-tooltip__row strong {
+  color: var(--text-h);
+}
